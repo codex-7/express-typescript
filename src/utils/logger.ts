@@ -1,7 +1,7 @@
-import logger from "pino";
+import logger from 'pino';
 
-let isEnable: boolean = true;
-if (process.env.NODE_ENV === "test") {
+let isEnable = true;
+if (process.env.NODE_ENV === 'test') {
   isEnable = false;
 }
 
