@@ -22,6 +22,8 @@ const app = async () => {
     server.use(morgan(mode === 'development' ? 'dev' : 'combined'));
     server.use(router); // Application router handler
 
+    /// setup your database in here .....
+
     // exposing application and listening through a port
     server.listen(port, () =>
       log.info(`⚡️[server]: Server is running at http://localhost:${port}`),
