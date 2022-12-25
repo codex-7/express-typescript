@@ -1,0 +1,49 @@
+{
+  "name": "@codex-7/express",
+  "version": "1.0.0",
+  "description": "Expressjs boilerplate using TypeScript",
+  "main": "src/server.ts",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codex-7/express-typescript.git"
+  },
+  "author": "0xMahabub <mahabub212002072@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node-dev --exit-child --files --transpile-only --project tsconfig.json src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc",
+    "prebuild": "rimraf dist",
+    "postinstall": "cp .sample.env .env",
+    "add:prisma": "yarn add -D prisma; yarn prisma init;",
+    "add:mongo": "yarn add mongoose; yarn add -D @types/mongoose;",
+    "add:typeorm": "yarn add typeorm; yarn add -D @types/typeorm;"
+  },
+  "bugs": {
+    "url": "https://github.com/codex-7/express-typescript/issues"
+  },
+  "packageManager": "yarn@1.22.19",
+  "engines": {
+    "node": ">=16.x"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "pino": "^8.8.0",
+    "rimraff": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.15",
+    "@types/jest": "^29.2.4",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^18.11.17",
+    "ts-jest": "^29.0.3",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.4"
+  }
+}
