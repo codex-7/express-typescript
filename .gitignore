@@ -24,10 +24,10 @@ dist
 
 # Husky
 .husky/*
-.husky/pre-commit
-.husky/post-commit
-.husky/pre-push
-.husky/post-push
+!.husky/pre-commit
+!.husky/post-commit
+!.husky/pre-push
+!.husky/post-push
 
 # OS & Other Misc.
 .DS_Store
