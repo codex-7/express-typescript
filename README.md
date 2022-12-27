@@ -113,7 +113,7 @@ model User {
 }
 ```
 
-`now make user service in ./src/services/user.ts`
+`now make user service in ./src/services/user.service.ts`
 
 CREATE :=> create user example
 
@@ -168,5 +168,98 @@ main()
 
 **If you find and hard or want to see `prisma` original documentation or example **
 [https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-express](https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-express)
+
+**Let's see `TypeORM` setup from here**
+
+Execute this first to install `TypeOrm`.
+
+```bash
+$ yarn add:typeorm
+```
+
+It will add `typeorm` and `reflect-metadata` initially. But we need to choose database just after this. Then also install thier driver package like.
+For `MySQL`,
+
+```bash
+$ yarn add mysql
+# or
+$ yarn add mysql2 # latest
+```
+
+or
+
+For `PostgreSQL`,
+
+```bash
+$ yarn add pg
+```
+
+Then you need create a `./src/configs/db.ts` file.
+And put this configuation file for `TypeORM` and customize as you need.
+
+```ts
+import { DataSource } from 'typeorm';
+import 'reflect-metadata'; // typeorm requires it
+
+// you can also import values from `./env.ts` and put them in this configuation
+
+export const setupTypeOrm = new DataSource({
+  type: 'mysql', // database type
+  host: 'localhost', // database hostname
+  port: 3306, // database port
+  username: 'test', // database username
+  password: 'test', // database password
+  database: 'test', // database name
+  entities: ['src/**/*.entity.ts'], // your entity files
+  logging: true, // logs
+  synchronize: true, // sync <Boolean> | turn it off for prod.
+});
+```
+
+_Note: Always turn off the `synchronize` for production mode._
+
+Now setup your orm in `./src/server.ts` <br>
+
+```ts
+// import first
+import {
+  mode,
+  port,
+  setupTypeOrm  // imported ...
+} from './configs';
+----------------------------------------------
+const initDatabase = async () => {
+  /// setup your database in here .....
+  await setupTypeOrm
+    .initialize()
+    .then(() => {
+      console.log('Data Source has been initialized!');
+    })
+    .catch((err) => {
+      console.error('Error during Data Source initialization:', err);
+    });
+};
+```
+
+Let's make an entity class as an example <br>
+create a file like `./src/services/user/user.entity.ts`
+
+```ts
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity()
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  firstName: string;
+
+  @Column()
+  lastName: string;
+}
+```
+
+For more informations about typeorm: [https://typeorm.io/](https://typeorm.io/)
 
 --- Thanks

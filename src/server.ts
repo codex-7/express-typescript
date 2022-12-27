@@ -24,8 +24,6 @@ const initDatabase = async () => {
   /// setup your database in here .....
 };
 
-export { server };
-
 /// Spin the server @Bootstrap
 const bootstrap = async () => {
   try {
@@ -46,3 +44,5 @@ const bootstrap = async () => {
 if (process.env.NODE_ENV !== 'test') {
   bootstrap(); // starting application
 }
+
+export { server };

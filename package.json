@@ -21,7 +21,7 @@
     "postinstall": "cp .sample.env .env",
     "add:prisma": "yarn add -D prisma; yarn prisma init;",
     "add:mongo": "yarn add mongoose; yarn add -D @types/mongoose;",
-    "add:typeorm": "yarn add typeorm; yarn add -D @types/typeorm;",
+    "add:typeorm": "yarn add typeorm reflect-metadata",
     "prepare": "yarn husky install"
   },
   "bugs": {
