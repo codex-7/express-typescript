@@ -5,25 +5,31 @@ import { log } from './utils';
 import { mode, port } from './configs';
 import { router } from './router';
 
-const app = async () => {
+const server: Express = express(); // Express app instance
+
+// common server settings
+server.use(express.json()); // BodyParser
+server.use(express.urlencoded({ extended: true }));
+if (mode !== 'production') {
+  server.use(cors()); // CORS enabled for all
+} else {
+  // or you can make a allow-list and CorsOptions with it
+  // I'm exposing /api* access to everybody @Initially as a boilerplate only
+  server.options('/api/*', cors()); // ONLY /api/* is enabled from anywhere
+}
+server.use(morgan(mode === 'development' ? 'dev' : 'combined'));
+server.use(router); // Application router handler
+
+const initDatabase = async () => {
+  /// setup your database in here .....
+};
+
+export { server };
+
+/// Spin the server @Bootstrap
+const bootstrap = async () => {
   try {
-    const server: Express = express(); // Express app instance
-
-    // common server settings
-    server.use(express.json()); // BodyParser
-    server.use(express.urlencoded({ extended: true }));
-    if (mode !== 'production') {
-      server.use(cors()); // CORS enabled for all
-    } else {
-      // or you can make a allow-list and CorsOptions with it
-      // I'm exposing /api* access to everybody @Initially as a boilerplate only
-      server.options('/api/*', cors()); // ONLY /api/* is enabled from anywhere
-    }
-    server.use(morgan(mode === 'development' ? 'dev' : 'combined'));
-    server.use(router); // Application router handler
-
-    /// setup your database in here .....
-
+    await initDatabase();
     // exposing application and listening through a port
     server.listen(port, () =>
       log.info(`⚡️[server]: Server is running at http://localhost:${port}`),
@@ -37,4 +43,6 @@ const app = async () => {
   }
 };
 
-app(); // starting application
+if (process.env.NODE_ENV !== 'test') {
+  bootstrap(); // starting application
+}
